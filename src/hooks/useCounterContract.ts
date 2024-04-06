@@ -9,13 +9,14 @@ export function useCounterContract() {
   const client = useTonClient();
   const [val, setVal] = useState<null | string>();
   const { sender } = useTonConnect();
+  const contract_address = import.meta.env.VITE_CONTRACT_ADDRESS;
 
   const sleep = (time: number) => new Promise((resolve) => setTimeout(resolve, time));
 
   const counterContract = useAsyncInitialize(async () => {
     if (!client) return;
     const contract = new Counter(
-      Address.parse('EQBXjLlOlsb7NtQzCSNuGyX97w7FIkLeSoqMlU7hZJCMzz4X') // replace with your address from tutorial 2 step 8
+      Address.parse(contract_address) // replace with your address from tutorial 2 step 8
     );
     return client.open(contract) as OpenedContract<Counter>;
   }, [client]);
